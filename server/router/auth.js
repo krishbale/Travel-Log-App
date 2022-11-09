@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 require('../DB/conn');
 const User = require('../models/userSchema');
 
@@ -45,21 +46,55 @@ router.post('/register' , async (req, res) =>  {
       const userExist =  await User.findOne({ email:email })
       if(userExist){
         return res.status(422).json({error: "E-mail already exists. "})   
+                     }else if(password!=cpassword){
+                         return res.status(422).json({error: "passwords are not matching "})  
+                     }else {
+                        const user = new User({ name , email, phone , work , password , cpassword })
+                        //yaha pe
+                        await  user.save()
+                            res.json({message: "User registered successfully "}) 
                      }
-
-    const user = new User({ name , email, phone , work , password , cpassword })
-   const userRegister = await  user.save()
-    if(userRegister){
-        res.json({error: "User registered successfully "}) 
-        
-    }
-    
-
     }catch(err){
         console.log(err);
-
     }
-   
-
  })
+
+ //login route
+ router.post('/signin', async (req,res) => {
+   
+   
+    try{
+        const { email , password } = req.body;
+        if(!email||!password){
+            return res.status(422).json({error: "please fill the field properly "})
+    
+        }
+        
+        const userLogin = await User.findOne({email:email})
+        //console.log(userlogin)
+      
+        if(userLogin){
+
+            const isMatch = await bcrypt.compare(password, userLogin.password)
+            if(!isMatch){
+                res.status(400).json({ error :"Invalid Credentials  pass" });
+
+            }else{
+                res.json({ message:"user signin successfully"})
+            }
+            
+            }else{
+                res.json({ message:"Invalid Credentials email"})
+
+            }
+            } catch(err){
+                console.log(err)
+            
+        }
+    });
+
+ 
+
+
+
 module.exports = router;
