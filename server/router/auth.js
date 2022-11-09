@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 require('../DB/conn');
 const User = require('../models/userSchema');
 
@@ -74,6 +76,8 @@ router.post('/register' , async (req, res) =>  {
         //console.log(userlogin)
       
         if(userLogin){
+            
+
 
             const isMatch = await bcrypt.compare(password, userLogin.password)
             if(!isMatch){
@@ -81,6 +85,12 @@ router.post('/register' , async (req, res) =>  {
 
             }else{
                 res.json({ message:"user signin successfully"})
+                const token = await userLogin.generateAuthToken();
+            console.log(token);
+            res.cookie("jwtoken", token, {
+                expires:new Date(Date.now() + 25892000000),
+                httpOnly:true
+            })
             }
             
             }else{
