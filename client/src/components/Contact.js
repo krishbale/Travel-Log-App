@@ -64,13 +64,13 @@ const Contact = () => {
                 <form id='contact-form'>
                   <div className='contact-form-name d-flex justify-content-between align-item-between'>
                   <input type="text" className="contact-form-name input_field" id="contact-form-name" 
-                    placeholder='Your Name' required="true"
+                    placeholder='Your Name' required={true}
                   />
                     <input type="email" className="contact-form-email input_field" id="contact-form-email" 
-                    placeholder='Your E-mail' required="true"
+                    placeholder='Your E-mail' required={true}
                   />
                     <input type="number" className="contact-form-phone input_field" id="contact-form-phone" 
-                    placeholder='Your Phone' required="true"
+                    placeholder='Your Phone' required={true}
                   />
 
 

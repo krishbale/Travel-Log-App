@@ -27,13 +27,13 @@ const Login = () => {
     
      const data = await res.json();
 
-     if(res.status === 400 || !data ){
-       window.alert("Invalid Registeration");
-       console.log('Invalid Registeration')
+     if(res.status === 422 || !data ){
+       window.alert("Invalid Credentials");
+       console.log('Invalid Credentials')
 
      }else {
-       window.alert(" Login successfull successfull");
-       console.log(' Login successfull successfull');
+       window.alert(" Login  successfull");
+       console.log(' Login  successfull');
        history('/');
 
        }
@@ -62,7 +62,7 @@ const Login = () => {
       </div>
 
       <div className='signin-form'>
-      <h2 className='form-title'>Sign Up</h2>
+      <h2 className='form-title'>Log IN</h2>
       <form method='POST'
       className='register-form' id='register-form'>
       
