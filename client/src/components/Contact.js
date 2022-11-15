@@ -1,7 +1,75 @@
-import React from 'react'
+import React, { useEffect,useState} from 'react'
 import iphone from '../images/iphone.png';
+import {  useNavigate } from 'react-router-dom';
 
 const Contact = () => {
+  
+  const [userData,setUserData] = useState({name:"",email:"",phone:"",message:""});
+  const history = useNavigate();
+  const callContactPage = async () => {
+    try{
+      const res = await fetch('/getdata', {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      const data = await res.json();
+      console.log(data);
+      setUserData(data);
+      if(!res.status===200){
+        const error = new Error(res.error);
+        throw error;
+      }
+
+    }catch(e){
+      console.log(e);
+      history('/login')
+    
+    }
+  }
+           
+      useEffect(() => {
+        callContactPage();
+      }, [])
+      //we are storing data in states
+        const handleInputs = (e) => {
+          let title = e.target.name;
+          let value = e.target.value;
+          setUserData({...userData,[title]:value })
+        }
+        //send the data to backend
+        const contactForm = async (e)=> {
+          e.preventDefault();
+          const {name,email,phone,message} = userData;
+          try{
+            const res = fetch('/contact',{
+              method:"POST",
+              headers:{
+                "Content-Type":"application/json"
+
+              },
+              body:JSON.stringify 
+                ({
+                  name,email,phone,message
+                })
+              });
+              const data =  await res.json();
+              if(!data){
+                console.log('message not found');
+              } else {
+                alert("message send successfully");
+                setUserData(...userData,userData.message)
+              }
+            
+
+          }catch(e){
+            console.log(e);
+          }
+
+          
+        }
+      
   return (
     <>
     <div className='contact-info'>
@@ -16,7 +84,7 @@ const Contact = () => {
                    Phone
                 </div>
                 <div className='contact-info-text'>
-                   +91 1111 543 7856 
+                   {userData.phone}
                 </div>
               </div>
             </div>
@@ -28,7 +96,7 @@ const Contact = () => {
                    Email
                 </div>
                 <div className='contact-info-text'>
-                   user@provider.com
+                   {userData.email}
                 </div>
               </div>
             </div>
@@ -61,17 +129,26 @@ const Contact = () => {
                 <div className='contact-form-title'>
                   Get in Touch
                 </div>
-                <form id='contact-form'>
+                <form id='contact-form' method='POST' >
                   <div className='contact-form-name d-flex justify-content-between align-item-between'>
                   <input type="text" className="contact-form-name input_field" id="contact-form-name" 
-                    placeholder='Your Name' required={true}
-                  />
+                    placeholder='Your Nam name' r 
+                    name='name'
+                    equired={true} value={userData.name}
+  
+  onChange={handleInputs}                />
                     <input type="email" className="contact-form-email input_field" id="contact-form-email" 
-                    placeholder='Your E-mail' required={true}
-                  />
+                    placeholder='Your E-mail' 
+                    name='email'
+                     required={true} value={userData.email}
+ 
+ onChange={handleInputs}                 />
                     <input type="number" className="contact-form-phone input_field" id="contact-form-phone" 
-                    placeholder='Your Phone' required={true}
-                  />
+                    placeholder='Your Phone'  
+                    name='phone'
+                    required={true} value={userData.phone}
+ 
+ onChange={handleInputs}                 />
 
 
 
@@ -81,10 +158,14 @@ const Contact = () => {
 
 
                   <div className='contact-form-text mt-5'>
-                    <textarea className="text-field contact-form-message" placeholder='Message' id="" cols="30" rows="10"></textarea>
+                    <textarea className="text-field contact-form-message" placeholder='Message' name="message"
+    
+    
+                     value={userData.message}
+                    onChange={handleInputs} id="" cols="30" rows="10"></textarea>
                   </div>
                   <div className='contact-form-button'>
-                  <button type='submit' className='button contact-submit-button'>Send Message</button>
+                  <button type='submit' onClick={ contactForm} className='button contact-submit-button'>Send Message</button>
 
                   </div>
                 </form>

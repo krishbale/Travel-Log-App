@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const authenticate = require('../middleware/authenticate');
 const jwt = require('jsonwebtoken');
+var cookieParser = require('cookie-parser')
+router.use(cookieParser());
 
 require('../DB/conn');
 const User = require('../models/userSchema');
 
-router.get("/", (req,res) => {
-    res.send(`Hello world from the server router js`)
-});
+// router.get("/", (req,res) => {
+//     res.send(`Hello world from the server router js`)
+// });
 //using promisees
 
 // router.post('/register' ,  (req, res) =>  {
@@ -73,35 +76,87 @@ router.post('/register' , async (req, res) =>  {
         }
         
         const userLogin = await User.findOne({email:email})
-        //console.log(userlogin)
-      
-        if(userLogin){
+        if(!userLogin){
+            res.status(422).json({"message" : "TRY Again with valid Credentials"})
+            console.log('Not valid Credentials')
+        }else if(userLogin){
             
 
 
             const isMatch = await bcrypt.compare(password, userLogin.password)
             if(!isMatch){
-                res.status(400).json({ error :"Invalid Credentials  pass" });
+                res.status(422).json({"message" : "Try again with valid passwords"})
 
             }else{
-                res.json({ message:"user signin successfully"})
+               
                 const token = await userLogin.generateAuthToken();
             console.log(token);
             res.cookie("jwtoken", token, {
                 expires:new Date(Date.now() + 25892000000),
                 httpOnly:true
             })
+            
+            res.json(userLogin)
+            
             }
             
-            }else{
-                res.json({ message:"Invalid Credentials email"})
-
             }
             } catch(err){
                 console.log(err)
+               
             
         }
     });
+    //about us page
+    router.get('/about' ,authenticate,(req, res)=>{
+        console.log('hello my about');
+        res.send(req.rootUser);
+
+
+    });
+    //contact and home
+    router.get('/getdata' ,authenticate,(req, res)=>{
+        console.log('hello my about');
+   
+        res.send(req.rootUser);
+
+
+    });
+    //contact message
+    router.post('/contact' ,authenticate,async(req, res)=>{
+        try{
+            const {name ,email,phone,message} = req.body;
+            if(!name || !email || !phone || !message){
+                return res.json({"error":"please fill the field properly"})
+                
+            }
+            const userContact =  await User.findOne({_id:req.userID});
+            if(userContact){
+                const userMessage = await userContact.addMessage(name,email,phone,message)
+                await userContact.save();
+                res.status(201).json({message:"Message send successfully"})
+            }
+            
+        }catch(e){
+            console.log(e);
+        }
+      
+       
+   
+      
+
+
+    });
+ 
+
+
+    router.get('/logout' ,(req, res)=>{
+     
+        res.clearCookie('jwtoken',{ path:'/' });
+        res.status(200).send('User Logout')
+
+
+    })
 
  
 

@@ -34,7 +34,7 @@ const Login = () => {
      }else {
        window.alert(" Login  successfull");
        console.log(' Login  successfull');
-       history('/');
+       history('/about');
 
        }
 

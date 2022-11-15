@@ -1,7 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState} from 'react'
 import bppic from '../images/krishz70.png'
+import aboutpic from '../images/aboutme.png'
+import {  useNavigate  } from 'react-router-dom';
 
 const About = () => {
+  const history = useNavigate();
+  const [userData, setUserData] = useState({});
+  const callAboutPage = async () => {
+    try{
+      const res = await fetch('/about', {
+        method: "GET",
+        headers: {
+          Accept:"application/json",
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      })
+      const data = await res.json();
+     
+      setUserData(data);
+      
+      if(await !res.status===200){
+        const error = new Error(res.error);
+        throw error;
+      }
+
+    }catch(e){
+      console.log(e);
+    history('/login')
+    
+    }
+  }
+           
+      useEffect(() => {
+        callAboutPage();
+      }, [])
+      
   return (
     <>
       <div className='container emp-profile'>
@@ -10,7 +44,7 @@ const About = () => {
 
             <div className='col-md-4'>
             <div className='profile-img'>
-            <img src={bppic} height="100" width="100" alt='pic' />
+            <img src={ userData.name === "Balkrishna Pokharel" ? bppic:aboutpic } height="100" width="100" alt='pic' />
 
             </div>
             </div>
@@ -26,10 +60,10 @@ const About = () => {
 
                 <ul className="nav nav-tabs" id='myTab' role='tablist'>
                     <li className="nav-item">
-                      <a className="nav-link " id='home-tab' data-toggle="tab" href="#home" role="tab">About</a>
+                      <a className="nav-link active " id='home-tab' data-toggle="tab" href="#home" role="tab">About</a>
                     </li>
                     <li className="nav-item">
-                    <a className="nav-link active" id='profile-tab' data-toggle="tab" href="#profile" role="tab">Timeline</a>
+                    <a className="nav-link " id='profile-tab' data-toggle="tab" href="#profile" role="tab">Timeline</a>
                     </li>
                  
               </ul>
@@ -62,7 +96,7 @@ const About = () => {
             {/* right side data toggle */}
             <div className='col-md-8 pl-5 about-info'>
               <div className='tab-content profile-tab' id='myTabContent'>
-                <div className='tab-pane fade' id='home' role="tabpanel" aria-labelledby='home-tab'>
+                <div className='tab-pane fade active' id='home' role="tabpanel" aria-labelledby='home-tab'>
                   <div className='row mt-2'>
                     <div className='col-md-6'>
                       <label>USER_ID</label>
@@ -76,7 +110,7 @@ const About = () => {
                       <label>Name</label>
                     </div>
                     <div className='col-md-6'>
-                       <p>Balkrishna Pokharel</p>   
+                       <p>{userData.name}</p>   
                     </div>
                   </div>
                   <div className='row mt-3'>
@@ -84,7 +118,7 @@ const About = () => {
                       <label>Email</label>
                     </div>
                     <div className='col-md-6'>
-                       <p>sushil.pokharel.7528@gmail.com</p>   
+                       <p>{userData.email}</p>   
                     </div>
                   </div>
                   <div className='row mt-3'>
@@ -92,7 +126,7 @@ const About = () => {
                       <label>Phone</label>
                     </div>
                     <div className='col-md-6'>
-                       <p> 975375737537</p>   
+                       <p>{userData.phone}</p>   
                     </div>
                   </div>
                   <div className='row mt-3'>
@@ -100,7 +134,7 @@ const About = () => {
                       <label>Profession</label>
                     </div>
                     <div className='col-md-6'>
-                       <p>web Developer</p>   
+                       <p>{userData.work}</p>   
                     </div>
                   </div>
                 </div>
