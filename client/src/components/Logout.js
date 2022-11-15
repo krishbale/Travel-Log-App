@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react'
-
+import React, { useEffect,useContext } from 'react'
+import { UserContext } from '../App';
 import { useNavigate } from 'react-router-dom'
 
 
 const Logout = () => {
+
+  const {state,dispatch}  = useContext(UserContext);
+
+
     const history = useNavigate();
     useEffect(() => {
         try{
@@ -18,12 +22,14 @@ const Logout = () => {
              
               
         if(log.status !== 200){
+    
             const error = new Error(log.error);
             throw error;
         }
 
         }catch(e)
         {
+          dispatch({type:"USER",payload:false})
             console.log(e)
             history('/');
 

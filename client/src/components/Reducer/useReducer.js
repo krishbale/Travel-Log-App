@@ -1,6 +1,0 @@
-// const reducer = (state,action) =>
-// {
-
-
-
-// }

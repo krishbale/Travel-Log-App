@@ -1,5 +1,5 @@
-import React from 'react';
-// {createContext, useReducer}
+import React,{createContext, useReducer} from 'react';
+
  
 import Navbar from './components/Navbar';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -12,20 +12,16 @@ import Signup from './components/Signup';
 import './App.css'
 import Errorpage from './components/Errorpage';
 import Logout from './components/Logout';
+import { initialState, reducer } from '../src/reducer/useReducer';
 
-// export const UserContext = createContext();
+export const UserContext = createContext();
 const App = () => {
-//   const [state, dispatch] = useReducer(reducer, initialState, init)
-//   //1: context API
+  const [state, dispatch] = useReducer(reducer, initialState)
+  //1: context API
 
-
-
-  return (
-    <>
-   
-    {/* <UserContext.Provider value={{state,dispatch}}> */}
-      <Navbar/>
-      <Routes>
+const Routing = () => {
+  return(
+    <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/about' element={<About />} />
       <Route path='/contact' element={<Contact />} />
@@ -35,7 +31,19 @@ const App = () => {
       <Route path='*' element={<Errorpage />} />
       
       </Routes>
-      {/* </UserContext.Provider> */}
+
+  )
+}
+
+  return (
+    <>
+   
+    <UserContext.Provider value={{state,dispatch}}>
+
+      <Navbar/>
+      <Routing />
+     
+      </UserContext.Provider>
     
      
     </>
