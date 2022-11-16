@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { NavLink } from 'react-router-dom';
 import logo from "../images/logo2.png";
 import { UserContext } from '../App';
+import './Navbar.css';
 const Navbar = () => {
   const { state ,dispatch } = useContext(UserContext);
   const RenderMenu = () => {
@@ -12,7 +13,7 @@ const Navbar = () => {
          <li className="nav-item active">
         <NavLink className="nav-link" to="/">Home <span className="sr-only"></span></NavLink>
       </li>
-      <li className="nav-item">
+      <li className="nav-item ">
         <NavLink className="nav-link" to="/about">About</NavLink>
       </li>
       

@@ -2,6 +2,7 @@ import React,{useState,useContext} from 'react'
 import loginpic from '../images/login.svg'
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UserContext } from '../App';
+import './Login.css'
 const Login = () => {
 
   const {state,dispatch}  = useContext(UserContext);

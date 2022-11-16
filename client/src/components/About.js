@@ -2,7 +2,7 @@ import React, { useEffect, useState} from 'react'
 import bppic from '../images/krishz70.png'
 import aboutpic from '../images/aboutme.png'
 import {  useNavigate  } from 'react-router-dom';
-
+import './About.css';
 const About = () => {
   const history = useNavigate();
   const [userData, setUserData] = useState({});
@@ -60,10 +60,10 @@ const About = () => {
 
                 <ul className="nav nav-tabs" id='myTab' role='tablist'>
                     <li className="nav-item">
-                      <a className="nav-link active " id='home-tab' data-toggle="tab" href="#home" role="tab">About</a>
+                      <a className="nav-link  " id='home-tab' data-toggle="tab" href="#home" role="tab">About</a>
                     </li>
                     <li className="nav-item">
-                    <a className="nav-link " id='profile-tab' data-toggle="tab" href="#profile" role="tab">Timeline</a>
+                    <a className="nav-link active" id='profile-tab' data-toggle="tab" href="#profile" role="tab">Timeline</a>
                     </li>
                  
               </ul>
@@ -96,7 +96,7 @@ const About = () => {
             {/* right side data toggle */}
             <div className='col-md-8 pl-5 about-info'>
               <div className='tab-content profile-tab' id='myTabContent'>
-                <div className='tab-pane fade active' id='home' role="tabpanel" aria-labelledby='home-tab'>
+                <div className='tab-pane fade ' id='home' role="tabpanel" aria-labelledby='home-tab'>
                   <div className='row mt-2'>
                     <div className='col-md-6'>
                       <label>USER_ID</label>
