@@ -1,25 +1,20 @@
 import React, { useEffect,useState} from 'react'
 import iphone from '../images/iphone.png';
 import {  useNavigate } from 'react-router-dom';
-import './Contact.css';
+import axios from 'axios';
 
-const Contact = () => {
+const ContactLayout = () => {
   
   const [userData,setUserData] = useState({name:"",email:"",phone:"",message:""});
   const history = useNavigate();
   const callContactPage = async () => {
     try{
-      const res = await fetch('/getdata', {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
-      const data = await res.json();
-      console.log(data);
+      let {data} = await axios.get('/getdata')
       setUserData(data);
-      if(!res.status===200){
-        const error = new Error(res.error);
+   
+      setUserData(data);
+      if(!data.status===200){
+        const error = new Error(data.error);
         throw error;
       }
 
@@ -44,26 +39,11 @@ const Contact = () => {
           e.preventDefault();
           const {name,email,phone,message} = userData;
           try{
-            const res = fetch('/contact',{
-              method:"POST",
-              headers:{
-                "Content-Type":"application/json"
-
-              },
-              body:JSON.stringify 
-                ({
-                  name,email,phone,message
-                })
-              });
-              const data =  await res.json();
-              if(!data){
-                console.log('message not found');
-              } else {
-                alert("message send successfully");
-                setUserData(...userData,userData.message)
+            await axios.post('/contact',{
+                name,email,phone,message
               }
-            
-
+              );
+           
           }catch(e){
             console.log(e);
           }
@@ -73,19 +53,19 @@ const Contact = () => {
       
   return (
     <>
-    <div className='contact-info'>
-      <div className='container-fluid'>
-        <div className='row'>
-          <div className='col-lg-10 offset-lg-1 d-flex justify-content-between'>
+    <div className='contact-info bg-info'>
+      <div className='container-fluid '>
+        <div className='row bg-'>
+          <div className='col-lg-10 offset-lg-1 d-flex justify-content-between '>
           {/* phone number */}
             <div className='contact-info-item d-flex justify-content-start align-items-center'>
               <img src={iphone} alt="phone" />
-              <div className='contact-info-content'>
-                <div className='contact-info-title'>
+              <div className='contact-info-content ' >
+                <div className='contact-info-title bg-opacity-100'>
                    Phone
                 </div>
                 <div className='contact-info-text'>
-                   {userData.phone}
+                   987-876-654
                 </div>
               </div>
             </div>
@@ -97,7 +77,7 @@ const Contact = () => {
                    Email
                 </div>
                 <div className='contact-info-text'>
-                   {userData.email}
+                   email@gmail.com
                 </div>
               </div>
             </div>
@@ -122,51 +102,46 @@ const Contact = () => {
 
 
     {/* center form field */}
-        <div className='contact-form'>
-          <div className='container'>
-            <div className='row'>
-              <div className='col-lg-10 offset-lg-1'>
+        <div className='contact-form bg-dark' >
+          <div className='container '>
+            <div className='row '>
+              <div className='col-lg-10 offset-lg-1 '>
                 <div className='contact-form-container py-5' >
-                <div className='contact-form-title'>
+                <div className='contact-form-title bg-info'>
                   Get in Touch
                 </div>
-                <form id='contact-form' method='POST' >
-                  <div className='contact-form-name d-flex justify-content-between align-item-between'>
-                  <input type="text" className="contact-form-name input_field" id="contact-form-name" 
-                    placeholder='Your Nam name' r 
+                <form id='contact-form' method='POST'  >
+                  <div className='contact-form-name d-flex justify-content-between align-item-between bg-info'>
+                  <input type="text" className="contact-form-name input_field bg-dark" id="contact-form-name" 
+                    placeholder='Your name' 
                     name='name'
-                    equired={true} value={userData.name}
+                    required={true} 
   
-  onChange={handleInputs}                />
-                    <input type="email" className="contact-form-email input_field" id="contact-form-email" 
+                    onChange={handleInputs}                />
+                    <input type="email" className="contact-form-email input_field bg-dark " id="contact-form-email" 
                     placeholder='Your E-mail' 
                     name='email'
-                     required={true} value={userData.email}
+                     required={true} 
  
- onChange={handleInputs}                 />
-                    <input type="number" className="contact-form-phone input_field" id="contact-form-phone" 
+                    onChange={handleInputs}                 />
+                    <input type="number" className="contact-form-phone input_field bg-dark " id="contact-form-phone" 
                     placeholder='Your Phone'  
                     name='phone'
-                    required={true} value={userData.phone}
+                    required={true} 
  
- onChange={handleInputs}                 />
-
-
-
-
-
+                    onChange={handleInputs}                 />
                   </div>
 
 
                   <div className='contact-form-text mt-5'>
-                    <textarea className="text-field contact-form-message" placeholder='Message' name="message"
+                    <textarea className="text-field contact-form-message form-control form-control-plaintext bg-dark" placeholder='Click here write  the message:' name="message"
     
     
-                     value={userData.message}
+                    
                     onChange={handleInputs} id="" cols="30" rows="10"></textarea>
                   </div>
                   <div className='contact-form-button'>
-                  <button type='submit' onClick={ contactForm} className='button contact-submit-button'>Send Message</button>
+                  <button type='submit' onClick={ contactForm} className='button contact-submit-button btn-outline-info'>Send Message</button>
 
                   </div>
                 </form>
@@ -180,4 +155,4 @@ const Contact = () => {
   )
 }
 
-export default Contact
+export default ContactLayout

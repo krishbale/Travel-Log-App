@@ -2,19 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userSchema = new mongoose.Schema({
-    name: {
-        type:String,
-        required:true
-    },
-    email: {
-        type:String,
-        required:true
-    },
-    phone: {
-        type:Number,
-        required:true
-    },
-    work: {
+    username: {
         type:String,
         required:true
     },
@@ -22,36 +10,19 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    cpassword: {
-        type:String,
-        required:true
-    },
+    roles:[
+        {
+            type:String,
+            default:'writer'
+        },
+
+    ],
+
     date:{
         type:Date,
         Default:Date.now
     },
-    messages:[
-        {
-            
-        name: {
-            type:String,
-            required:true
-        },
-        email: {
-            type:String,
-            required:true
-        },
-        phone: {
-            type:Number,
-            required:true
-        },
-        message: {
-            type:String,
-            required:true
-        },
-
-        }
-     ],
+   
     tokens:[
         {
             token:{
@@ -62,7 +33,9 @@ const userSchema = new mongoose.Schema({
 
         }
        
-    ]
+    ],
+   
+
 })
 
 
@@ -73,11 +46,8 @@ const userSchema = new mongoose.Schema({
  userSchema.pre('save', async function(next)  {
     
     if ( this.isModified('password'))
-    
     {
         this.password=  await bcrypt.hash(this.password,12);
-        this.cpassword=  await bcrypt.hash(this.cpassword,12);
-   
     }
     next();
 
@@ -97,17 +67,11 @@ userSchema.methods.generateAuthToken = async function(){
 }
 
 //store the message
-userSchema.methods.addMessage = async function (name,email,phone,message){
-    try{
-        this.messages = this.messages.concat({name,email,phone,message})
-        await this.save();
-        return this.messages;
+
+//storing the travel logs
 
 
-    }catch(e){
-        console.log(e);
-    }
 
-}
+
  const User = mongoose.model('USER',userSchema);
  module.exports= User;
