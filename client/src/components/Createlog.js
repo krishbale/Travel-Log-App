@@ -12,7 +12,7 @@ export default function Createlog() {
     const { title , descriptions, days , budgets } = user; 
     try {
     const res = 
-    await fetch("/createlog",{
+    await fetch("/api/createlog",{
     method : "POST",
     headers: {
       "Content-Type" : "application/json"},
@@ -45,7 +45,7 @@ export default function Createlog() {
 
   return (
     <>
-      <div className='createlog bg-secondary '>
+      <div className='createlog'>
                 <h1>Createlog</h1>
                 <div className='row'>
                 <form className='form ' method='post' >
@@ -53,23 +53,24 @@ export default function Createlog() {
                 
 
                     <label  htmlFor="title"> Enter the title for your travel log: </label>
-                    <input type="text" className='form-control form-text text bg-dark col-sm-2' placeholder='title' name="title"           
+                    <input type="text" className='form-control form-text text bg-dark  text-white ' placeholder='title' name="title"           
                         onChange={handleInputs} required/>
 
                     <label htmlFor="descriptions">Explain your experience about your exprediton: </label>
-                   <textarea className='form-control form-control-plaintext bg-dark col-sm-6' placeholder='descriptions' name="descriptions" 
+                   <textarea className='form-control form-control-plaintext bg-dark  text-white ' placeholder='descriptions' name="descriptions" 
                     onChange={handleInputs} id="" cols="50" rows="10"></textarea>
 
                     <label htmlFor="days"> Days you spent on your travel: </label>
-                    <input type="number" className='form-control bg-dark col-sm-2' placeholder='days' name="days"
+                    <input type="number" className='form-control bg-dark  text-white text-white ' placeholder='days' name="days"
                         onChange={handleInputs} required/>
 
                     <label htmlFor="budgets">Enter the budget for your travel</label>
                   
-                    <input type="number" className='form-control bg-dark col-sm-2'  placeholder='budgets' name="budgets"
+                    <input type="number" className='form-control bg-dark  text-white '  placeholder='budgets' name="budgets"
                     onChange={handleInputs} required/>
                     <input type="submit" className='btn btn-lg btn-outline-info '  name='submit' onClick={Travelform} />
                     </div>
+                  
                 </form>
 
                 </div>

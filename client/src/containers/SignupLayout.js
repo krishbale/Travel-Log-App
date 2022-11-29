@@ -4,32 +4,37 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 
 function SignupLayout  ()  {
+  const writer = "writer"
+  const viewer ="viewer"
   const   history = useNavigate();
   const [user,setUser] = useState({
-    username:"",password:""
+    username:"",password:"",roles:"writer"
   });
+ 
   
   const handleInputs = (e) => {
     let name, value;
-    console.log(e)
+   
+
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user,[name]:value})
+    console.log(value)
   }
 
 
   const PostData = async(e) =>{
     e.preventDefault();
 
-    const { username , password } = user; 
+    const { username , password, roles } = user; 
   try {
     const res = 
-    await fetch("/register",{
+    await fetch("/api/register",{
     method : "POST",
     headers: {
       "Content-Type" : "application/json"},
     body: JSON.stringify({
-        username , password 
+        username , password , roles
       
 
     })
@@ -45,7 +50,7 @@ function SignupLayout  ()  {
   
   
     window.alert('Registeration successfull')
-    history('/login')
+    history('/api/login')
    
     
 
@@ -92,6 +97,13 @@ function SignupLayout  ()  {
           placeholder='Your Password'
         />
       </div>
+      <div className="form-group col-md-2 ">
+      <label htmlFor="inputState" className='text-info'>Role:</label>
+      <select id="inputState" name='roles'  onChange={handleInputs} className="form-control bg-dark text-info ">
+        <option  value={writer} >writer</option>
+        <option   value={viewer} >viewer</option>
+      </select>
+    </div>
       <div className='form-group form-button'>
         <input type="submit" name="signup" id="signup" className='form-submit btn btn-outline-info' value="register"
         onClick={ PostData } /> 

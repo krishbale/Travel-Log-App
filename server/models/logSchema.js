@@ -25,16 +25,7 @@ const logSchema = new mongoose.Schema(
         type:Number,
         required:true
     },
-    // likes:{
-    //     type:Number
-    // },
-    // comments:{
-    //     type:String,
-    // },
-    // public:{
-    //     type:Boolean,
 
-    // }
 
 },
 {

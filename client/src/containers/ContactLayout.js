@@ -9,18 +9,20 @@ const ContactLayout = () => {
   const history = useNavigate();
   const callContactPage = async () => {
     try{
-      let {data} = await axios.get('/getdata')
+      let {data} = await axios.get('/api/getdata')
       setUserData(data);
    
       setUserData(data);
       if(!data.status===200){
         const error = new Error(data.error);
         throw error;
+      }else{
+      
       }
 
     }catch(e){
       console.log(e);
-      history('/login')
+      history('/api/login')
     
     }
   }
@@ -55,7 +57,7 @@ const ContactLayout = () => {
     <>
     <div className='contact-info bg-info'>
       <div className='container-fluid '>
-        <div className='row bg-'>
+        <div className='row '>
           <div className='col-lg-10 offset-lg-1 d-flex justify-content-between '>
           {/* phone number */}
             <div className='contact-info-item d-flex justify-content-start align-items-center'>
@@ -112,19 +114,19 @@ const ContactLayout = () => {
                 </div>
                 <form id='contact-form' method='POST'  >
                   <div className='contact-form-name d-flex justify-content-between align-item-between bg-info'>
-                  <input type="text" className="contact-form-name input_field bg-dark" id="contact-form-name" 
+                  <input type="text" className="contact-form-name input_field bg-dark text-white" id="contact-form-name" 
                     placeholder='Your name' 
                     name='name'
                     required={true} 
   
                     onChange={handleInputs}                />
-                    <input type="email" className="contact-form-email input_field bg-dark " id="contact-form-email" 
+                    <input type="email" className="contact-form-email input_field bg-dark text-white " id="contact-form-email" 
                     placeholder='Your E-mail' 
                     name='email'
                      required={true} 
  
                     onChange={handleInputs}                 />
-                    <input type="number" className="contact-form-phone input_field bg-dark " id="contact-form-phone" 
+                    <input type="number" className="contact-form-phone input_field bg-dark text-white " id="contact-form-phone" 
                     placeholder='Your Phone'  
                     name='phone'
                     required={true} 
@@ -134,7 +136,7 @@ const ContactLayout = () => {
 
 
                   <div className='contact-form-text mt-5'>
-                    <textarea className="text-field contact-form-message form-control form-control-plaintext bg-dark" placeholder='Click here write  the message:' name="message"
+                    <textarea className="text-field contact-form-message form-control form-control-plaintext bg-dark text-white" placeholder='Click here write  the message:' name="message"
     
     
                     

@@ -2,46 +2,50 @@ import React, { useContext } from 'react'
 import 'bootstrap/dist/css/bootstrap.css';
 import { NavLink } from 'react-router-dom';
 import logo from "../images/logo2.png";
-import { UserContext } from '../App';
+import {  UserContext,SessionContext } from '../App';
 
 const Navbar = () => {
-  const { state ,dispatch } = useContext(UserContext);
+  const {state,dispatch} = useContext(UserContext);
+  const sessioncontext = useContext(SessionContext)
   const RenderMenu = () => {
-    if(state) {
-      return (
-        <>
-         <li className="nav-item active">
-        <NavLink className="nav-link bg-info" to="/">Home <span className="sr-only"></span></NavLink>
-      </li>
-      <li className="nav-item ">
-        <NavLink className="nav-link bg-info" to="/about">About</NavLink>
-      </li>
-      
-      <li className="nav-item">
-        <NavLink className="nav-link bg-info" to="contact">Contact</NavLink>
-      </li>
-      <li className="nav-item ">
-        <NavLink className="nav-link bg-info" to="/myLog">Create Log <span className="sr-only"></span></NavLink>
-      </li>
-      
-    
-      <li className="nav-item">
-        <NavLink className="nav-link bg-danger" to="/logout">Logout</NavLink>
-      </li>
-           
-        </>
-      )
-    } else {
+    if(sessioncontext.username) {
+                                  return (
+                                    <>
+                              
+        <li className="nav-item active">
+       <NavLink className="nav-link bg-info" to="/">Home <span className="sr-only"></span></NavLink>
+     </li>
+     <li className="nav-item ">
+       <NavLink className="nav-link bg-info" to="/about">About</NavLink>
+     </li>
+     
+     <li className="nav-item">
+       <NavLink className="nav-link bg-info" to="/contact">Contact</NavLink>
+     </li>
+     <li className="nav-item ">
+       <NavLink className="nav-link bg-info" to="/log">Create Log <span className="sr-only"></span></NavLink>
+     </li>     
+     <li className="nav-item ">
+       <NavLink className="nav-link bg-info" to="/logout">LOG OUT <span className="sr-only"></span></NavLink>
+     </li>     
+
+                                </>
+       
+                              )
+    } 
+    else  {
       return(
         <>
-            <li className="nav-item">
-        <NavLink className="nav-link bg-success" to="/login">Login</NavLink>
-      </li>
-      
-      <li className="nav-item">
-        <NavLink className="nav-link bg-info" to="/signup">Register</NavLink>
-      </li>
-        </>
+                               <li className="nav-item">
+                                <NavLink className="nav-link bg-success" to="/login">Login</NavLink>
+                              </li>
+                              
+                              <li className="nav-item">
+                                <NavLink className="nav-link bg-info" to="/signup">Register</NavLink>
+                              </li>
+
+       </>
+    
       )
     }
 

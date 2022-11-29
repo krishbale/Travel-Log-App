@@ -1,153 +1,214 @@
 import axios from 'axios'
-import React,{useState,useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+
+
 
 
 export default function ViewLog() {
-    const history =useNavigate()
-    const[title,setTitle] = useState("")
-    const[descriptions,setDescriptions] = useState("")
-    const[days,setDays] = useState("")
-    const[budgets,setBudgets] = useState("")
-    const[userId,setUserId] = useState(null)
-    const [userData,setUserData] = useState([])
-    const callviewLog = async () => {
-        try{
-            const { data } = await axios.get('/getlog');
-            let  traveldata = data;
-           setUserData(traveldata);
-        //    setTitle(traveldata[0].title)
-        //    setDescriptions(traveldata[0].descriptions)
-        //    setDays(traveldata[0].days)
-        //    setBudgets(traveldata[0].budgets)
-        //    setUserId(traveldata[0].userid)
+    
+    const [userData, setUserData] = useState([])
+    const [comments,setComments] = useState('')
+    const [likes,setLikes] = useState(0)
+    const [ comment,getcomment] = useState([])
+  
+    const callviewLog = async (id) => {
 
+        try {
+            
+            
+          
+            const { data } = await axios.get('/api/getlog');
+            let traveldata = data;
+            setUserData(traveldata);
+            
+            
+        
 
-        }catch(e){
+        } catch (e) {
             console.log(e);
-           
+
         }
     }
 
-        useEffect(() => {
-         callviewLog();
-        }, []);
+    useEffect(() => {
+        callviewLog();
+    }, []);
 
+    const postlike = async (id) => {
 
-        function selectUser(id,title,descriptions,days,budgets){
-        setTitle(title)
-        setDescriptions(descriptions)
-        setDays(days)
-        setBudgets(budgets)
-        setUserId(id)
-        
-
-    }
-    function updateUser(){
-        let item = {title,descriptions,days,budgets}
-        console.warn("item",item)
-        fetch(`/updatelog/${userId}`,{
-            method: "PUT",
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify(item)
-        }).then((result)=>{
-            result.json().then((resp)=>{
-                console.warn(resp)
-                callviewLog();
-            })
-        })
-
-    }
-    function deleteUser(id){
-        fetch(`/deletelog/${id}`,{
-            method: "PUT"
-        }).then((result)=>{
-            result.json().then((resp)=>{
-                console.warn(resp)
-                callviewLog();
-
-            })
-        })
-        
-
-    }
-
-      
-    
-        return(
-            <>
-             <table className='table table-secondary table-responsive table-hover ' border="10" style={{
-                 float: 'left',
-                 border:'1 px solid black',
-                 borderCollapse:'collapse', }}>
-        <tbody>
-          <tr>
-            <td>ID</td>
-            <td>Title</td>
-            <td>Descriptions</td>
-            <td>Days</td>
-            <td>Budgets</td>
-            <td>Operations</td>
-          </tr>
-          {
-            userData.map((item,i)=>
-           
-          
-           
-              <tr key={item._id}>
-                <td>{i}</td>
-                <td>{item.title}</td>
-                <td>{item.descriptions}</td>
-                <td>{item.days}</td>
-                <td>{item.budgets}</td> 
-                <td><button className='btn btn-outline-info' onClick={() => selectUser(
-                    item._id, item.title,
-                    item.descriptions, item.days, item.budgets
-                )}>Edit</button></td>
-                <td><button className='btn btn-outline-danger' onClick={() => deleteUser(item._id)}>Delete</button></td>
-
-
-              </tr>
-              )
-          }
-              
-               
-            )
-          
-        </tbody>
-      </table>
-                      <div>
-                      <p className=' bg-secondary'>Click Update button to update the  travel Log </p> <br/>
-               
-                    <input type="text" className=' bg-secondary' value={title} name="title"
-                        onChange={(e) => { setTitle(e.target.value) }} required />
-                    <input type="text" value={descriptions} name="descriptions" className='  bg-secondary'
-                        onChange={(e) => { setDescriptions(e.target.value) }} required />
-
-                    <input type="number" value={days} name="days" className='  bg-secondary'
-                        onChange={(e) => { setDays(e.target.value) }} required />
-                    <input type="number" value={budgets} name="budgets" className='  bg-secondary'
-                        onChange={(e) => { setBudgets(e.target.value) }} required />
-                    <button className='btn btn-outline-info' onClick={updateUser} >Update</button>
-                     </div>
-                    
-
-
-              
+        setLikes(likes+1)
+        try{
+            const { data } = await axios.put(`/api/likes/${id}`,{
+                likes,
+            });
             
-            </>
-        )
-           
+    
+        }catch(e){
+            console.log(e);
+        }
         
-    };
-
-
-
-
         
     
+      
+    }
   
+
+    const fetchcomment = async(id) => {
+        try{
+             const {data} = await axios.get(`/api/getcomments/${id}`);
+        getcomment(data);
+
+       
+        }catch(e){
+            console.log(e);
+        }
+       
+            
+
+
+    }
+  const postcomment = async (id) => {
+    console.log(id)
+    setComments(comments)
+    console.log(comments)
+    try{
+        const { data } = await axios.post(`/api/comments/${id}`,{
+            comments,
+        });
+   
+
+    }catch(e){
+        console.log(e);
+    }
+  }
+ 
+    
+   
+
+        
+     
+
+       
+        
+       
+
+
+
+
+
+    return (
+        <>
+        
+        <h1 >ViewLog</h1>
+        <div className='row'>
+       
+    
+          
+        <div className='col-sm'>
+             
+             { userData.map((item, i) =>
+             
+             <>
+            
+         
+                
+                   
+                     
+               
+                
+         
+
+             
+
+             
+
+                <div className="card " key={item._id}  >
+                    <img className="card-img-top " alt='' />
+                    <div className="card-body">
+                        <h5 className="card-title col">{item.title}</h5>
+                        <p className="card-text ">{item.descriptions} So,Overall budget for our destination was {item.budgets}.We finished the trip in approximately {item.days} days</p>
+                       
+                        <p className="card-text"><small className="text-muted">Last updated: {Date(item.updatedAt)}</small></p>
+                        <button className='btn  btn-danger' onClick={()=>{postlike(item._id)}}>
+                         {likes} Like</button> 
+                        <textarea className='form-control form-control-plaintext bg-dark  text-white '  placeholder='Enter your comments'
+                         name="comments" 
+                        onChange={(e)=> setComments(e.target.value)} id="comments"  cols="1" rows="1" required></textarea>
+                        <button type="submit" className='btn btn-lg btn-outline-info'  onClick={() => {postcomment(item._id)}}  name='submit' >Comment</button>
+                        <button type="submit" className='btn btn-lg btn-outline-block' onClick={() => {fetchcomment(item._id)}}  name='submit'>View Other Comments</button>
+                     
+
+                     
+ 
+                                       
+                          </div>
+                       
+                 </div>
+                 </>
+                 
+             )
+             
+
+             }
+             </div>
+             <div className='col-sm'>
+
+       
+
+
+             { comment.map((item,i)=>
+             <>
+             <div className='' key={item._id}>
+             <div className='' key={item.id}>
+                      
+                      <p className='card-text'>{item.comments}</p>
+                      <p className="card-text"><small className="text-muted">Last updated: {Date(item.updatedAt)}</small></p>
+                      
+
+          </div>
+        
+
+             </div>
+            
+             
+          
+             </>
+              
+             )
+                
+             }
+             </div>
+                
+                       
+           
+  
+  
+        
+                
+
+        
+           
+         
+     
+                        
+              
+
+            
+            
+
+
+
+             </div>
+        </>
+    )
+
+
+};
+
+
+
+
+
+
+
 

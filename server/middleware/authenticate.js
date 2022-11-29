@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const Log = require("../models/logSchema");
 const User = require('../models/userSchema');
 
 
@@ -9,6 +10,7 @@ const authentication = async (req,res,next)=>{
         const token = req.cookies.jwtoken;
         const verifyToken = jwt.verify(token, process.env.SECRECT_KEY);
         const rootUser = await User.findOne({ _id:verifyToken._id, "tokens.token": token})
+      
    
    
         if(!rootUser){

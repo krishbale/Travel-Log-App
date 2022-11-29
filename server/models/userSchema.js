@@ -10,13 +10,15 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    roles:[
+    roles:
         {
             type:String,
+            required:true,
             default:'writer'
+            
         },
 
-    ],
+    
 
     date:{
         type:Date,

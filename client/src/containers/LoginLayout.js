@@ -1,40 +1,50 @@
-import React,{useState,useContext} from 'react'
+import React,{useContext, useState} from 'react'
 import loginpic from '../images/login.svg'
-import { NavLink, useNavigate } from 'react-router-dom';
-import { UserContext } from '../App';
-const LoginLayout = () => {
+import { NavLink,useNavigate  } from 'react-router-dom';
+import {  UserContext } from '../App';
 
-  const {state,dispatch}  = useContext(UserContext);
-  const   history = useNavigate();
+const LoginLayout = () => {
+  const history = useNavigate()
+  const {state,dispatch} = useContext(UserContext);
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  
-  const loginUser =  async (e) => {
+
+
+  const loginUser = async (e) => {
     e.preventDefault();
     try {
-      
-    const res =
-    await
-   fetch('/signin',
-  {
-   method : "POST",
-   headers: {
-   "Content-Type" : "application/json"},
-   body : JSON.stringify({
-     username , password,
-   
-   })
-    });
-     const data = await res.json();
-     if(res.status === 422 || !data ){
-       window.alert("Invalid Credentials")
-     }else {
-      dispatch({type:"USER",payload:true})
-      window.alert('Login successfull')
-       history('/');
-       }
-    } catch(error){
+
+      const res =
+        await
+          fetch('/api/signin',
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                username, password
+
+              })
+            });
+      const data = await res.json();
+      if (res.status === 422 || !data) {
+        window.alert("Invalid Credentials")
+      }
+      else
+      {
+        
+        dispatch({type:"USER",payload:true})
+        window.alert(`hello Viewer`)
+        history('/about',{state})
+       
+      }
+
+
+
+
+    } catch (error) {
       console.log(error);
 
     }
@@ -64,10 +74,10 @@ const LoginLayout = () => {
       <div className=''>
       <div className='form-group  '>
         <label htmlFor="username">
-        <i className="zmdi zmdi-account material-icons-name bg-info"></i>
+        <i className="zmdi zmdi-account material-icons-name bg-info "></i>
         </label>
         <input type="text" name="username" id="name" autoComplete='off' 
-          placeholder='Your Username' className='bg-dark'
+          placeholder='Your Username' className='bg-dark text-white-50'
  
             
             onChange={(e) => setUserName(e.target.value)}
@@ -79,12 +89,13 @@ const LoginLayout = () => {
 
         </label>
         <input type="text" name="password" id="password" autoComplete='off' 
-          placeholder='Your Password' className='bg-dark'
+          placeholder='Your Password' className='bg-dark text-white-50'
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
 
         />
       </div>
+
       <div className='form-group form-button '>
         <input type="submit" 
         onClick={loginUser}

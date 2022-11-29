@@ -6,17 +6,19 @@ const jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser')
 router.use(cookieParser());
 var mongo = require('mongodb').MongoClient;
-
-
-
+const session = require('express-session')
+const MongoDBStore = require('connect-mongodb-session')
+(session)
 
 const User = require('../models/userSchema');
 const Log = require('../models/logSchema');
 const Message = require('../models/messageSchema');
+const Comment = require('../models/commentSchema');
+const Like = require('../models/likeSchema');
 
 
 router.post('/register' , async (req, res) =>  {
-    const { username , password } = req.body;
+    const { username , password,roles } = req.body;
 
     if(!username  || !password ){
     
@@ -28,7 +30,7 @@ router.post('/register' , async (req, res) =>  {
       if(userExist){
         return res.status(422).json({error: "Choose another username "}) 
                      }else {
-                        const user = new User({ username  , password  })
+                        const user = new User({ username , password ,roles })
                         //yaha pe
                         await  user.save()
                             res.json({message: "User registered successfully "}) 
@@ -43,7 +45,7 @@ router.post('/register' , async (req, res) =>  {
    
    
     try{
-        const { username , password } = req.body;
+        const { username , password, } = req.body;
         if(!username||!password){
             return res.status(422).json({error: "please fill the field properly "})
     
@@ -58,14 +60,22 @@ router.post('/register' , async (req, res) =>  {
             if(!isMatch){
                 res.status(422).json({"message" : "Try again with valid passwords"})
             }else{
-                const token = await userLogin.generateAuthToken();
+                const userSession = { username:userLogin.username } //creating user session to keep user logged in also in refresh
+                req.session.user = userSession //attach user session to session objects from express-session
+
+        //token generation
+            const token = await userLogin.generateAuthToken();
             console.log(token);
             res.cookie("jwtoken", token, {
                 expires:new Date(Date.now() + 25892000000),
                 httpOnly:true
             })
-            
-            res.status(200).json({message:"user login successfull"});
+            res.status(200)
+            .json({
+                message:"user login successfull",
+                roles:userLogin.roles,
+                success:true,userSession
+            });
             }
             
             }
@@ -79,12 +89,33 @@ router.post('/register' , async (req, res) =>  {
     router.get('/getdata' ,authenticate,(req, res)=>{
         res.send(req.rootUser);
     });
+
     router.get('/getlog',authenticate,async(req,res) =>{
         const log = await Log.find({ userid:req.userID })
         res.send(log);
 
         
-    })
+    });
+
+    router.get('/getlikes/:id',authenticate,async(req,res) =>{
+        const { id } = req.params;
+        
+      const likes = await Like.find({ "log" : id}) 
+      console.log(likes)
+      res.json(likes) ;
+
+
+        
+    });
+    router.get('/getcomments/:id',authenticate,async(req,res) =>{
+        const { id } = req.params;
+     
+        const comments = await Comment.find({ "logid":id })
+        console.log(comments);
+        res.json(comments)
+
+        
+    });
 
     //public log i
 
@@ -132,7 +163,75 @@ router.post('/register' , async (req, res) =>  {
         }catch(e){
             console.log(e);
         }
+    }),
+    router.post('/comments/:id',authenticate,async(req,res)=>{
+        const { comments  } = req.body;
+        const {  id } = req.params;
+        if(!comments){
+            return res.status(422).json({"error":"please fill the comments field properly"})
+        }else{
+            console.log(comments,id)
+            
+        }
+        try{
+           
+            const cmt = new Comment({ comments,logid: id})
+            await cmt.save();
+            if(!cmt){
+                res.json({msg:"not successfull"})
+            }else{
+                res.json({msg:"comment created successfully"})
+
+            }
+           
+
+        }catch(e){
+            console.log(e)
+
+        }
     })
+    router.put('/likes/:id',authenticate,async(req,res)=>{
+        const {likes} = req.body;
+        const { id } = req.params;
+        try{
+           
+            const doc = await Like.findOneAndUpdate(
+                {
+                "logid":id,
+                },
+                {
+
+                    $set:{
+                        "likes":likes+1,
+                        "logid":id
+                    },
+                   
+                },
+                {
+                    upsert:true
+                }
+              
+              
+
+            
+      
+            )
+            if(!doc){
+             
+                res.json({msg:"unable to register  likes"})
+
+            }else{
+               
+                    res.json({msg:"like  registered on the database"})
+                
+            }
+
+        }catch(e){
+            console.log(e);
+
+        }
+    })
+
     
     router.put('/updatelog/:id',authenticate,async(req,res)=>{
         const {title,descriptions,days,budgets} = req.body;
@@ -147,7 +246,8 @@ router.post('/register' , async (req, res) =>  {
                     "title": title,
                     "descriptions": descriptions,
                     "days": days,
-                    "budgets": budgets
+                    "budgets": budgets,
+                    
                 }
             }
             )
@@ -177,10 +277,44 @@ router.post('/register' , async (req, res) =>  {
         }
         res.status(201).json({message:"delete route"})
     })
-    router.get('/logout' , authenticate,(req, res)=>{
+    router.get('/isAuth',async(req,res)=>{
+            if(req.session.user){
+                return res.json(req.session.user)
+            }else{
+                res.status(401).json({msg:"unauthorize"})
+            }
+    })
+    router.get('/logout' , authenticate,async(req, res)=>{
+        // console.log(req.body);
+        try{
+            req.session.destroy((error)=>{
+                if(error) throw error
+            })
+            
+                const cookieOptions={
+                    expires: new Date(Date.now()-10*1000),
+                    httpOnly:true,
+                };
+                console.log("Logging out");
+                //res.clearCookie("jwt");                     //Have done this also
+                res.cookie("jwt","null",cookieOptions);
+                console.log("Deleted");
+                res.status(200).json({
+                    status:"success",
+                    message:"Cookie has been deleted"
+                });
+         
+        }catch(e){
+            console.log(e)
+            res.status(400).json({
+                status:"failed",
+                message: err.message
+            })
+        }
+       
      
-        res.clearCookie('jwtoken',{ path:'/' });
-        res.status(200).json('User logged out')
+       
+
 
 
     })

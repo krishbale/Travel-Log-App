@@ -4,7 +4,7 @@ import aboutpic from '../images/aboutme.png'
 
 import { useFetch} from '../utils/hooks';
 function AboutLayout  () {
-    const {data } = useFetch('/getdata')
+    const {data } = useFetch('/api/getdata')
 
 
   return (
