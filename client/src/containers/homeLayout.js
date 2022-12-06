@@ -5,10 +5,10 @@ import Viewlog from '../components/ViewLog'
 function HomeLayout  () {
   const history = useNavigate()
     const { data } = useFetch('/api/getdata')
-    console.log(data)
+   
   return (
     <>
-     <div className='home-page bg-secondary'>
+     <div className='home-page'>
     <div className='home-div'>
     <p className='pt-5'>Welcome</p>
     {

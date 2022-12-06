@@ -1,37 +1,47 @@
-import React,{useContext} from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect,useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {  UserContext } from '../App';
-const  Logout = async()=> {
-    const history = useNavigate();
+const Logout = () => {
     const {state,dispatch} = useContext(UserContext);
-    const res = await fetch(('/logout'),{
+    const history = useNavigate();
+    //promises
+
+    useEffect(() => {
+    fetch('/api/logout',
+    {
         method:"GET",
-            headers:{
-                Accept:"application/json",
-                "Content-Type":"application/json"
-            },
-            credentials:"include"
+        headers:
+        {
+            Accept:"application/json",
+            "Content-Type":"application/json"
 
-    })
-              const data =  await res.json();
-   
-            if(data.status !== 200){
-                const error = new Error(res.error);
-                throw error;
-            }else{
-                
-            dispatch({type:"USER",payload:false})
-            history('/login',{replace:true});
+        },credentials:"include"
+        
+    }).then((res)=>{
 
-            }
+        history('/',{ replace:true });
+        dispatch({type:"USER",payload:"false"})
+        if(res.status !== 200){
+            const error = new Error(res.error);
+            throw error;
+        }
+
+
+
+    }).catch((err)=>{
+        console.log(err)
+
+    });
+    }, [])
     
-            return (
+  return (
     <>
-    <h1>Logging out .........................</h1>
-
+    <h1>Logout page is working</h1>
+    
+    
+    
     </>
   )
-
 }
 
 export default Logout

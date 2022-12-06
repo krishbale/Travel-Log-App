@@ -23,12 +23,7 @@ export default function Updatelog() {
             const { data } = await axios.get('/api/getlog');
             let traveldata = data;
             setUserData(traveldata);
-            //    setTitle(traveldata[0].title)
-            //    setDescriptions(traveldata[0].descriptions)
-            //    setDays(traveldata[0].days)
-            //    setBudgets(traveldata[0].budgets)
-            //    setUserId(traveldata[0].userid)
-
+        
 
         } catch (e) {
             console.log(e);
@@ -54,7 +49,7 @@ export default function Updatelog() {
     }
     function updateUser() {
         let item = { title, descriptions, days, budgets}
-        console.warn("item", item)
+      
         fetch(`/api/updatelog/${userId}`, {
             method: "PUT",
             headers: {
@@ -64,7 +59,7 @@ export default function Updatelog() {
             body: JSON.stringify(item)
         }).then((result) => {
             result.json().then((resp) => {
-                console.warn(resp)
+                console.log('update successfull')
                 callviewLog();
             })
         })
@@ -97,22 +92,22 @@ export default function Updatelog() {
              
    
                 
-                <div class="card" >
-                    <img class="card-img-top"  />
-                    <div class="card-body">
-                        <h5 class="card-title">{item.title}</h5>
-                        <p class="card-text">{item.descriptions} So,Overall budget for our destination was {item.budgets}.We finished the trip in approximately {item.days} days</p>
+                <div className="card" key={i} >
+                    <img className="card-img-top"  />
+                    <div className="card-body">
+                        <h5 className="card-title">{item.title}</h5>
+                        <p className="card-text">{item.descriptions} So,Overall budget for our destination was {item.budgets}.We finished the trip in approximately {item.days} days</p>
                        
-                        <p class="card-text"><small class="text-muted">Last updated: {Date(item.updatedAt)}</small></p>
-                        <td><button className='btn btn-outline-danger' onClick={Counthandle}>{likes} Like</button></td>     
-                                         <td><button type="button" className='btn btn-outline-info' data-toggle="modal"
+                        <p className="card-text"><small className="text-muted">Last updated: {Date(item.updatedAt)}</small></p>
+                        <button className='btn btn-outline-danger' onClick={Counthandle}>{likes} Like</button>  
+                                         <button type="button" className='btn btn-outline-info' data-toggle="modal"
                                          data-target="#exampleModalCenter" onClick={() => selectUser(
                                             item._id, item.title,
                                             item.descriptions, item.days, item.budgets
-                                        )}>Edit</button></td>
-                                          <td><button className='btn btn-outline-danger' onClick={() => deleteUser(item._id)}>
+                                        )}>Edit</button>
+                                          <button className='btn btn-outline-danger' onClick={() => deleteUser(item._id)}>
                                           Delete
-                                          </button></td>
+                                          </button>
                                        
                     </div>
                  </div>

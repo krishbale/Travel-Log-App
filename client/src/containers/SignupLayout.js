@@ -19,7 +19,7 @@ function SignupLayout  ()  {
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user,[name]:value})
-    console.log(value)
+   
   }
 
 
@@ -50,7 +50,7 @@ function SignupLayout  ()  {
   
   
     window.alert('Registeration successfull')
-    history('/api/login')
+    history('/login')
    
     
 

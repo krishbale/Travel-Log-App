@@ -68,9 +68,9 @@ export default function ViewLog() {
 
     }
   const postcomment = async (id) => {
-    console.log(id)
+   
     setComments(comments)
-    console.log(comments)
+  
     try{
         const { data } = await axios.post(`/api/comments/${id}`,{
             comments,
@@ -108,21 +108,8 @@ export default function ViewLog() {
              
              { userData.map((item, i) =>
              
-             <>
-            
-         
-                
                    
-                     
-               
-                
-         
-
-             
-
-             
-
-                <div className="card " key={item._id}  >
+                <div className="card" key={i}>
                     <img className="card-img-top " alt='' />
                     <div className="card-body">
                         <h5 className="card-title col">{item.title}</h5>
@@ -135,16 +122,11 @@ export default function ViewLog() {
                          name="comments" 
                         onChange={(e)=> setComments(e.target.value)} id="comments"  cols="1" rows="1" required></textarea>
                         <button type="submit" className='btn btn-lg btn-outline-info'  onClick={() => {postcomment(item._id)}}  name='submit' >Comment</button>
-                        <button type="submit" className='btn btn-lg btn-outline-block' onClick={() => {fetchcomment(item._id)}}  name='submit'>View Other Comments</button>
-                     
-
-                     
- 
-                                       
+                        <button type="submit" className='btn btn-lg btn-outline-block' onClick={() => {fetchcomment(item._id)}}  name='submit'>View Other Comments</button>       
                           </div>
                        
                  </div>
-                 </>
+                 
                  
              )
              
@@ -157,9 +139,9 @@ export default function ViewLog() {
 
 
              { comment.map((item,i)=>
-             <>
-             <div className='' key={item._id}>
-             <div className='' key={item.id}>
+             
+          
+             <div key={i} >
                       
                       <p className='card-text'>{item.comments}</p>
                       <p className="card-text"><small className="text-muted">Last updated: {Date(item.updatedAt)}</small></p>
@@ -168,11 +150,10 @@ export default function ViewLog() {
           </div>
         
 
-             </div>
             
              
           
-             </>
+             
               
              )
                 

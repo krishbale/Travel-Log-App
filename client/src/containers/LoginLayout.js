@@ -4,12 +4,10 @@ import { NavLink,useNavigate  } from 'react-router-dom';
 import {  UserContext } from '../App';
 
 const LoginLayout = () => {
+const {state,dispatch} = useContext(UserContext);
   const history = useNavigate()
-  const {state,dispatch} = useContext(UserContext);
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
-
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -34,10 +32,9 @@ const LoginLayout = () => {
       }
       else
       {
-        
-        dispatch({type:"USER",payload:true})
         window.alert(`hello Viewer`)
-        history('/about',{state})
+        dispatch({type:"USER",payload:"true"})
+        history('/')
        
       }
 

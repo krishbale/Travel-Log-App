@@ -237,7 +237,7 @@ router.post('/register' , async (req, res) =>  {
         const {title,descriptions,days,budgets} = req.body;
         const { id } = req.params;
 
-        console.log(title);
+       
         try{
             const doc = await Log.findOneAndUpdate({
                  "_id":id},
@@ -275,45 +275,20 @@ router.post('/register' , async (req, res) =>  {
         }catch(e){
             console.log(e)  
         }
-        res.status(201).json({message:"delete route"})
+        res.status(201).json({message:"content deleted"})
     })
     router.get('/isAuth',async(req,res)=>{
             if(req.session.user){
-                return res.json(req.session.user)
+                return res.status(200).json(req.session.user)
             }else{
-                res.status(401).json({msg:"unauthorize"})
+                res.status(401).json({msg:"nosession"})
             }
     })
-    router.get('/logout' , authenticate,async(req, res)=>{
-        // console.log(req.body);
-        try{
-            req.session.destroy((error)=>{
-                if(error) throw error
-            })
-            
-                const cookieOptions={
-                    expires: new Date(Date.now()-10*1000),
-                    httpOnly:true,
-                };
-                console.log("Logging out");
-                //res.clearCookie("jwt");                     //Have done this also
-                res.cookie("jwt","null",cookieOptions);
-                console.log("Deleted");
-                res.status(200).json({
-                    status:"success",
-                    message:"Cookie has been deleted"
-                });
-         
-        }catch(e){
-            console.log(e)
-            res.status(400).json({
-                status:"failed",
-                message: err.message
-            })
-        }
-       
-     
-       
+    router.get('/logout',authenticate,(req, res)=>{
+      console.log('logout server');
+      res.clearCookie('jwtoken',{path:'/'})
+      res.clearCookie('session-id',{path:'/'}) 
+      res.status(200).send('session Timeout , signing off')
 
 
 
