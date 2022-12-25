@@ -124,7 +124,7 @@ router.post('/register' , async (req, res) =>  {
     // });  //contact message
     router.post('/contact' ,authenticate,async(req, res)=>{
       
-    
+ 
         try{
             const {name ,email,phone,message} = req.body;
             if(!name || !email || !phone || !message){

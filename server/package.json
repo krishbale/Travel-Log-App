@@ -11,7 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "client": "^0.0.1",
     "connect-mongodb-session": "^3.1.1",
+    "content-based-recommender": "^1.5.0",
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "env": "^0.0.2",

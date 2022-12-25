@@ -41,7 +41,7 @@ const ContactLayout = () => {
           e.preventDefault();
           const {name,email,phone,message} = userData;
           try{
-            await axios.post('/contact',{
+            await axios.post('/api/contact',{
                 name,email,phone,message
               }
               );
