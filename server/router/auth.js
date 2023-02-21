@@ -9,22 +9,17 @@ var mongo = require('mongodb').MongoClient;
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')
 (session)
-
 const User = require('../models/userSchema');
 const Log = require('../models/logSchema');
 const Message = require('../models/messageSchema');
 const Comment = require('../models/commentSchema');
 const Like = require('../models/likeSchema');
-
-
 router.post('/register' , async (req, res) =>  {
     const { username , password,roles } = req.body;
-
     if(!username  || !password ){
     
         return res.status(422).json({error: "please fill the field properly "})
     }
-
     try{
       const userExist =  await User.findOne({ username:username })
       if(userExist){
@@ -42,7 +37,6 @@ router.post('/register' , async (req, res) =>  {
 
  //login route
  router.post('/signin', async (req,res) => {
-   
    
     try{
         const { username , password, } = req.body;

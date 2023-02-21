@@ -54,6 +54,7 @@ const userSchema = new mongoose.Schema({
     next();
 
  })
+ 
 // we are generating auth token
 userSchema.methods.generateAuthToken = async function(){
     try{
