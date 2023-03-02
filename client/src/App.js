@@ -1,10 +1,9 @@
 import React,{createContext, useEffect, useReducer, useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import './App.css'
+
 import { initialState,reducer } from './reducer/useReducer';
 
 import Routing from './Routing';
-import Navbar from './pages/navbar';
+import Navbar from './pages/Navbar';
 export const UserContext = createContext({});
 
 

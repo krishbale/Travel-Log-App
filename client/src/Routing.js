@@ -1,13 +1,10 @@
 import {Route,Routes} from 'react-router-dom'
-import Home from './pages/home';
+import Home from './pages/Home';
 import React,{useContext} from 'react'
-import Contact from './pages/contact';
-import Errorpage from './pages/errorpage';
-import About from './pages/about';
-import Log from './containers/Log';
-import LoginLayout from './containers/LoginLayout';
-import SignupLayout from './containers/SignupLayout';
-import Logout from './containers/Logout';
+import Log from './pages/Log';
+import LoginLayout from './pages/Login';
+import SignupLayout from './pages/Signup';
+import Logout from './pages/Logout';
 import {  UserContext } from '../src/App'
 function Routing  ()  {
       const {state,dispatch} = useContext(UserContext);
@@ -31,12 +28,11 @@ function Routing  ()  {
         <Routes>
        <Route path='/' element={<Home/>} />
        <Route path='/log' element={<Log />} />
-       <Route path='/about' element={<About />} />
-       <Route path='/contact' element={<Contact />} />
+       
        <Route path='/login' element={<LoginLayout />} />
        <Route path='/signup' element={<SignupLayout />} />
        <Route path='/logout' element={ <Logout /> } />
-       <Route path='*' element={<Errorpage />} />
+     
        </Routes>
        
        </>

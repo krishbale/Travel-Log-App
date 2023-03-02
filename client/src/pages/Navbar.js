@@ -27,8 +27,6 @@ const Navbar = () => {
       return (
         <>
         <Col>  <NavLink  to="/">Home</NavLink></Col>
-        <Col>  <NavLink  to="/about">About</NavLink></Col>
-        <Col>  <NavLink  to="/contact">Contact</NavLink></Col>
         <Col>  <NavLink  to="/log">Create Log </NavLink></Col>
         <Col> <NavLink  to="/logout">Logout</NavLink></Col>
   
