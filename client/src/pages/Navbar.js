@@ -12,13 +12,13 @@ import Button from '@mui/material/Button';
 // import StarIcon from '@mui/icons-material/StarBorder';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 // import GlobalStyles from '@mui/material/GlobalStyles';
 // import Container from '@mui/material/Container';
 
 
 
-import {  useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from "../images/logo2.png";
 import {  UserContext } from '../App';
 const Navbar = () => {
@@ -28,37 +28,21 @@ const Navbar = () => {
     if(state==="false"){
       console.log("state is falsed")
       return(
+        
         <>
+             <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/'>
+              <Button style={{paddingLeft: 13, textDecoration: 'none'}} sx={{ my: 1, mx: 1.5 }}    variant="text">HOME</Button>
+              </Link>
+              <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/signup'>
+              <Button  sx={{ my: 1, mx: 1.5 }}    variant="text">SIGN UP</Button>
+              </Link>
+              <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/login'>
+              <Button  sx={{ my: 1, mx: 1.5 }}    variant="contained">SIGN IN</Button>
+              </Link>
+
         
      
-        <Link 
-        href='/'
-        variant="button"
-        color="text.primary"
-        sx={{ my: 1, mx: 1.5 }}     
-        >
-        HOME
-        </Link>
-        
-        <Link 
-        href='/signup'
-        variant="button"
-        color="text.primary"
-        sx={{ my: 1, mx: 1.5 }}     
-        >
-        SIGN UP
-        </Link>
-        <Button   variant="outlined" sx={{ my: 1, mx: 1.5 }}>
-        <Link 
-        href='/login'
-        variant="button"
-        color="text.primary"
-        sx={{ my: 1, mx: 1.5 }}     
-        >
-        LOG IN
-        </Link>
-        </Button>
-         
+    
      
      
       
@@ -69,62 +53,24 @@ const Navbar = () => {
       return (
         <>
         <nav>
-        <Link 
-        href='/'
-        variant="button"
-        color="text.primary"
-        sx={{ my: 1, mx: 1.5 }}     
-        >
-        HOME
-        </Link>
-        
-            <Link
-              variant="button"
-              href='/create'
-              color="text.primary"
-              sx={{ my: 1, mx: 1.5 }}
-            >
-             
-            CREATE
-             
-            </Link>
-            <Link
-              variant="button"
-              color="text.primary"
-              href='/update'
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              Update 
-            </Link>
-            
-            <Link
-              variant="button"
-              color="text.primary"
-              href='/view'
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              VIEW 
-            </Link>
+              <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/'>
+              <Button  style={{paddingLeft: 13, textDecoration: 'none'}} sx={{ my: 1, mx: 1.5 }}    variant="text">HOME</Button>
+              </Link>
+               <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/create'>
+              <Button  sx={{ my: 1, mx: 1.5 }}    variant="text">CREATE</Button>
+              </Link>
+              <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/update'>
+              <Button  sx={{ my: 1, mx: 1.5 }}    variant="text">UPDATE</Button>
+              </Link>
+              <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/view'>
+              <Button  sx={{ my: 1, mx: 1.5 }}    variant="text">EXPLORE</Button>
+              </Link>
+              <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/logout'>
+              <Button  sx={{ my: 1, mx: 1.5 }}    variant="contained">LOG OUT</Button>
+              </Link>
           </nav>
         
-            
-            <Button   variant="outlined" sx={{ my: 1, mx: 1.5 }}>
-            <Link
-              variant="button"
-              color="text.primary"
-              href='/logout'
-              sx={{ my: 1, mx: 1.5 }}
-            >
-              LOG OUT
-            </Link>
-            </Button>
-            
-          
-       {/* <Link  to="/">Home</Link>
-       <Link  to="/create">Create Log</Link>
-       <Link  to="/update">Update Log</Link>
-       <Link  to="/view">ViewLog</Link>
-      <Link  to="/logout">Logout</Link> */}
+           
         </>
   
       )

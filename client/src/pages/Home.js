@@ -1,5 +1,5 @@
 import React  from 'react'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFetch} from '../utils/hooks';
 import { Box, Button, CardMedia, Container, Stack, Typography } from '@mui/material'
 
@@ -42,16 +42,35 @@ function HomeLayout  () {
               justifyContent="center"
             >
             { data.username===undefined ? 
-              <Button href='/login' variant="contained">START PLANNING</Button>
+              
+              <Link style={{paddingLeft: 13, textDecoration: 'none'}} to='/login'>
+              <Button  variant="contained"> START PLANNING</Button>
+              </Link>
+             
              : 
-             <Typography></Typography>}
-              <Button variant="outlined"> Welcome {data.username}</Button>
+             <Typography 
+             component="h6"
+              variant="h6"
+              align="center"
+              color="text.secondary"
+              gutterBottom
+             > Welcome {data.username}
+
+             </Typography>
+             }
+             <Link style={{paddingLeft: 1, textDecoration: 'none'}} to='/view'>
+              <Button   component="h6"
+             
+           
+              sx={{ my: 0.1, mx: 1 }}  variant="outlined">Explore</Button>
+              </Link>
+              
             </Stack>
             <CardMedia
                     component="img"
                     sx={{
                       // 16:9
-                      pt: '56.25%',
+                      pt: '9%',
                     }}
                     image="https://cdn.stocksnap.io/img-thumbs/280h/OLTZXDAPWT.jpg"
                     alt="random"
