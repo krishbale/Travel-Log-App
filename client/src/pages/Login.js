@@ -1,6 +1,6 @@
 import React,{useContext, useState} from 'react'
 import loginpic from '../images/login.svg'
-import { NavLink,useNavigate  } from 'react-router-dom';
+import { Link,useNavigate  } from 'react-router-dom';
 import {  UserContext } from '../App';
 
 const LoginLayout = () => {
@@ -100,7 +100,7 @@ const {state,dispatch} = useContext(UserContext);
          <p className='bg-dark' >
           Do you want to register a new account ? 
          </p>
-         <NavLink to="/signup" className="signup-image-link btn  btn-outline-info" >Create an account</NavLink>
+         <Link to="/signup" className="signup-image-link btn  btn-outline-info" >Create an account</Link>
       </div>
       </div>
 

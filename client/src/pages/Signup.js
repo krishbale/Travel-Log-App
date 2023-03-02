@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import signpic from "../images/signup.svg";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function SignupLayout  ()  {
@@ -116,7 +116,7 @@ function SignupLayout  ()  {
           <img src={signpic} height="100" width="75" alt="signpic" />
         </figure>
 
-        <NavLink to="/login" className="signup-image-link btn btn-outline-warning" >Back to Login Page</NavLink>
+        <Link to="/login" className="signup-image-link btn btn-outline-warning" >Back to Login Page</Link>
       </div>
     </div>
 
