@@ -19,8 +19,9 @@ function HomeLayout  () {
           }}
         >
           <Container maxWidth="sm">
+         
           
-        { data.username===undefined ? <Typography> Please Login  </Typography> : <Typography>{data.username}</Typography>}
+        
             <Typography
               component="h1"
               variant="h2"
@@ -28,12 +29,24 @@ function HomeLayout  () {
               color="text.primary"
               gutterBottom
             >
-              The Lightening Hotel
+             Travel With LOG 
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
-            Striking our service at Lightening speed
+            Build, organize, and map your itineraries in a free travel app designed for vacations & road trips
 
             </Typography>
+            <Stack
+              sx={{ pt: 4 }}
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+            >
+            { data.username===undefined ? 
+              <Button href='/login' variant="contained">START PLANNING</Button>
+             : 
+             <Typography></Typography>}
+              <Button variant="outlined"> Welcome {data.username}</Button>
+            </Stack>
             <CardMedia
                     component="img"
                     sx={{
@@ -43,15 +56,7 @@ function HomeLayout  () {
                     image="https://cdn.stocksnap.io/img-thumbs/280h/OLTZXDAPWT.jpg"
                     alt="random"
                   />
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-           <Button variant="contained">Book Now</Button>
-              <Button variant="outlined">Contact us</Button>
-            </Stack>
+          
           </Container>
         </Box>
        
