@@ -29,7 +29,7 @@ function HomeLayout  () {
               color="text.primary"
               gutterBottom
             >
-             Travel With LOG 
+             Travel Diary
             </Typography>
             <Typography variant="h5" align="center" color="text.secondary" paragraph>
             Build, organize, and map your itineraries in a free travel app designed for vacations & road trips

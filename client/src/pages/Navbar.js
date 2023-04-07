@@ -88,7 +88,7 @@ const Navbar = () => {
       >
         <Toolbar sx={{ flexWrap: 'wrap' }}>
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            TRAVEL LOG
+            TRAVEL DIARY
           </Typography>
           
           <RenderMenu />
