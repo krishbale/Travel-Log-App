@@ -1,16 +1,17 @@
-const session = require('express-session');
-const mongoose = require('mongoose');
+require('dotenv').config({ path: './config.env' })
+const mongoose = require('mongoose')
+const DB = process.env.DATABASE
 
+async function connectDB () {
+  try {
+    await mongoose.connect(DB, {
+    })
+    console.log('Connection successful')
+    mongoose.set('strictQuery', false) // Setting this after successful connection
+  } catch (err) {
+    console.log(DB)
+    console.error('Connection failed', err)
+  }
+}
 
-  const DB = process.env.DATABASE;
-//Connecting to the database
-mongoose.connect(DB, {
-    useNewUrlParser:true,
-   
-    useUnifiedTopology:true,
-    
-}).then(() => {
-    console.log("connection succesfull")
-}).catch((err) => {
-    console.log(err)
-})
+connectDB()

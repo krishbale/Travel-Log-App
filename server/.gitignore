@@ -2,3 +2,5 @@
 /node_modules
 /build
 /.pnp
+/config.env
+/.eslintrc.json

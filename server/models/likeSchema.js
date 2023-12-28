@@ -1,19 +1,17 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
 const likeSchema = new mongoose.Schema({
-logid:{
+  logid: {
 
-    type:mongoose.SchemaTypes.ObjectId,
-    ref:'LOG'
-},
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'LOG'
+  },
 
-likes:
+  likes:
     {
-         type:Number,  
+      type: Number
 
-    },
+    }
 })
 
-    const Like = mongoose.model('LIKE',likeSchema);
-    module.exports= Like;
+const Like = mongoose.model('LIKE', likeSchema)
+module.exports = Like

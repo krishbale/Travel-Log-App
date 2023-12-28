@@ -1,23 +1,21 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose')
 
 const commentSchema = new mongoose.Schema(
-    {
-    logid:{
-        type:mongoose.SchemaTypes.ObjectId,
-        ref:'LOG'
+  {
+    logid: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'LOG'
     },
- 
+
     comments:
         {
-             type:String,  
+          type: String
 
-        },
-    },
-    {
-        timestamps:true,
-    }
+        }
+  },
+  {
+    timestamps: true
+  }
 )
- const Comment = mongoose.model('COMMENT',commentSchema);
- module.exports= Comment;
+const Comment = mongoose.model('COMMENT', commentSchema)
+module.exports = Comment
